@@ -452,40 +452,54 @@ calculadora.operacion(operando);
 
 }
 
-var numprueba=5.0
-var cerosprueba=2
-var numchar=String(numprueba);
-var cadenaacum
-var cadena = String(numprueba)+".";
 
+var cadenaacum,cadena,indice,subcadena,decimalescount,diferencia,entero;
+
+
+function valida_dec(num){
+
+  cadena=String(num);
+  var indice = cadena.indexOf(".");
+
+  if (indice == -1){
+  entero=true;
+  cadena=cadena+".";
+
+  }
+
+  return cadena;
+
+
+
+}
+
+function valida_dif (cadena,cerosprueba){
 var indice = cadena.indexOf(".");
+subcadena=cadena.substr(indice+1);
+decimalescount=subcadena.length;
+diferencia=cerosprueba-decimalescount;
+return diferencia;
+}
 
-var subcadena=cadena.slice((indice+1),-1);
-
-var decimalescount=subcadena.length;
-var diferencia=cerosprueba-decimalescount
-
+function modif_cadena(cadena,diferencia){
   if (diferencia==1){
-    cadenaacum=cadena.slice(0,-1)+"0";}
+    cadena=cadena+"0";}
   else if (diferencia==2){
-    cadenaacum=cadena.slice(0,-1)+"00";}
+    cadena=cadena+"00";}
   else if (diferencia==3){
-      cadenaacum=cadena+"000";}
+      cadena=cadena+"000";}
   else if (diferencia==4){
-        cadenaacum=cadena+"0000";}
+        cadena=cadena+"0000";}
   else if (diferencia==5){
-          cadenaacum=cadena+"00000";}
+          cadena=cadena+"00000";}
   else if (diferencia==6){
-        cadenaacum=cadena+"000000";}
+        cadena=cadena+"000000";}
   else if (diferencia==7){
-          cadenaacum=cadena+"0000000";}
+          cadena=cadena+"0000000";}
 
+return cadena;
+}
 
-
-
-
-
-
-
-
-alert(cadenaacum);
+function convert(num,cerosprueba){
+alert(modif_cadena(valida_dec(num),valida_dif(valida_dec(num,cerosprueba),cerosprueba)));
+}
