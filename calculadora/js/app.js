@@ -13,18 +13,18 @@ var buildvalue=false;
 var contadorceros=1;
 var internochar="";
 var contadordecenas=0;
-
+var cadena,indice,subcadena,decimalescount,diferencia,entero;
 //metodos del modulo (privados)
-
+//funciones para procesar ceros a la derecha del numero decimal
 function conforma_valor(valor){
   if (punto==true){
-      if (contadorceros<=6){
+      if (contadorceros<=7){
     resultado = (valor/(Math.pow(10,contadorceros)))+resultado;
 
       contadorceros++;}
       else{resultado=resultado;}
     }
-    else{if  (contadordecenas<=6){ resultado=resultado*10+valor;
+    else{if  (contadordecenas<=7){ resultado=resultado*10+valor;
         contadordecenas++;}
         else{resultado=resultado;}}
 
@@ -32,96 +32,157 @@ function conforma_valor(valor){
 
 }
 
+function valida_dec(valor){
+
+  cadena=String(valor);
+  var indice = cadena.indexOf(".");
+
+  if (indice == -1){
+  entero=true;
+  cadena=cadena+".";
+
+  }
+
+  return cadena;
+
+
+
+}
+
+function valida_dif (cadena,contadorceros){
+var indice = cadena.indexOf(".");
+subcadena=cadena.substr(indice+1);
+decimalescount=subcadena.length;
+diferencia=contadorceros-decimalescount;
+return diferencia;
+}
+
+function modif_cadena(cadena,diferencia){
+  if (diferencia==1){
+    cadena=cadena+"0";
+  }
+  else if (diferencia==2){
+    cadena=cadena+"00";
+  }
+  else if (diferencia==3){
+      cadena=cadena+"000";
+    }
+  else if (diferencia==4){
+        cadena=cadena+"0000";
+      }
+  else if (diferencia==5){
+          cadena=cadena+"00000";
+      }
+  else if (diferencia==6){
+        cadena=cadena+"000000";
+      }
+  else if (diferencia==7){
+          cadena=cadena+"0000000";}
+
+return cadena;
+}
+
+function convert(valor,contadorceros){
+return(modif_cadena(valida_dec(valor),valida_dif(valida_dec(valor,contadorceros),contadorceros)));
+}
+
+function llamaconvert(){
+  if (contadorceros==1){
+      if (resultado!=0){
+      internochar=convert(resultado,contadorceros);}
+      else{internochar="0.0";}
+      contadorceros++;}
+
+     else if (contadorceros==2){
+      if (resultado!=0){internochar=convert(resultado,contadorceros);}
+      else{internochar="0.00";}
+
+        contadorceros++;}
+
+     else  if (contadorceros==3){
+         if (resultado!=0){internochar=convert(resultado,contadorceros);}
+         else{internochar="0.000";}
+    contadorceros++;
+          }
+    else  if (contadorceros==4){
+            if (resultado!=0){internochar=convert(resultado,contadorceros);}
+          else{internochar="0.0000";}
+      contadorceros++;
+               }
+     else  if (contadorceros==5){
+       if (resultado!=0){internochar=convert(resultado,contadorceros);}
+       else{internochar="0.00000";}
+    contadorceros++;
+        }
+
+      else  if (contadorceros==6){
+        if (resultado!=0){internochar=convert(resultado,contadorceros);}
+        else{internochar="0.000000";}
+           contadorceros++;
+         }
+
+      else  if (contadorceros==7){
+          if (resultado!=0){internochar=convert(resultado,contadorceros);}
+            else{internochar="0.0000000";}
+            }
+
+      return internochar;
+         }
+
+
+// metodos y atributos publicos
+
 
   return {
 
     operacion: function(operacion){
       switch (operacion) {
         case "on":
+        //inicializa las variables
 
         interno=0;
         punto=false;
         contadorceros=1;
         contadordecenas=0;
         resultado=0;
-        document.getElementById('display').innerHTML=String(resultado);
+        document.getElementById('display').innerHTML=String(resultado);   //inicializa las variables todas a cero
         break;
 
         case "sign":
 
         resultado=resultado*(-1);
 
-        document.getElementById('display').innerHTML=String(resultado);
+        document.getElementById('display').innerHTML=String(resultado);   //invierte el resultado
         break;
-
-
 
         case "raiz":
         //resultado=sqrt(resultado*(-1));
-        //document.getElementById('display').innerHTML=String(interno);
+        //document.getElementById('display').innerHTML=String(interno);  //no hace nada porque no esta solicitado
         break;
 
         case "punto":
-        punto=true;
+        punto=true; //pone el punto en true comienza la escrit decimal
         break;
 
 
         case "0":
 
-        if (punto==true){
-            if (contadorceros==1){
-                if (resultado!=0){
-                internochar=String(resultado)+".0";}
-                else{internochar="0.0";}
-                contadorceros++;}
 
-            else if (contadorceros==2){
-              if (resultado!=0){internochar=String(resultado)+"0";}
-              else{internochar="0.00";}
+            if (punto==true){
 
-              contadorceros++;}
-
-         else  if (contadorceros==3){
-           if (resultado!=0){internochar=String(resultado)+"0";}
-           else{internochar="0.000";}
-              contadorceros++;
-            }
-         else  if (contadorceros==4){
-           if (resultado!=0){internochar=String(resultado)+"0";}
-           else{internochar="0.0000";}
-                 contadorceros++;
-               }
-          else  if (contadorceros==5){
-                  if (resultado!=0){internochar=String(resultado)+"0";}
-                  else{internochar="0.00000";}
-                  contadorceros++;
-                  }
-          else  if (contadorceros==6){
-                  if (resultado!=0){internochar=String(resultado)+"0";}
-                    else{internochar="0.000000";}
-                     contadorceros++;
-                     }
-           else  if (contadorceros==7){
-                    if (resultado!=0){internochar=String(resultado);}
-                      else{internochar="0.0000000";}
-                      }
-          document.getElementById('display').innerHTML=internochar;
+          document.getElementById('display').innerHTML=llamaconvert();
           }
-          else {
+              else {
             resultado=resultado*10;
             document.getElementById('display').innerHTML=String(resultado);
-          }
+           }
 
-
-          if (ceropressed == false){
-          ceropressed=true;
-          }
         break;
 
         case "1":
-        conforma_valor(1);
+            conforma_valor(1);
 
-        document.getElementById('display').innerHTML=String(resultado);
+            document.getElementById('display').innerHTML=String(resultado);
 
         break;
         case "2":
@@ -450,56 +511,4 @@ document.getElementById('0').style="width:77px;margin-left-0px;margin-up:0px;"
 operando="0";
 calculadora.operacion(operando);
 
-}
-
-
-var cadenaacum,cadena,indice,subcadena,decimalescount,diferencia,entero;
-
-
-function valida_dec(num){
-
-  cadena=String(num);
-  var indice = cadena.indexOf(".");
-
-  if (indice == -1){
-  entero=true;
-  cadena=cadena+".";
-
-  }
-
-  return cadena;
-
-
-
-}
-
-function valida_dif (cadena,cerosprueba){
-var indice = cadena.indexOf(".");
-subcadena=cadena.substr(indice+1);
-decimalescount=subcadena.length;
-diferencia=cerosprueba-decimalescount;
-return diferencia;
-}
-
-function modif_cadena(cadena,diferencia){
-  if (diferencia==1){
-    cadena=cadena+"0";}
-  else if (diferencia==2){
-    cadena=cadena+"00";}
-  else if (diferencia==3){
-      cadena=cadena+"000";}
-  else if (diferencia==4){
-        cadena=cadena+"0000";}
-  else if (diferencia==5){
-          cadena=cadena+"00000";}
-  else if (diferencia==6){
-        cadena=cadena+"000000";}
-  else if (diferencia==7){
-          cadena=cadena+"0000000";}
-
-return cadena;
-}
-
-function convert(num,cerosprueba){
-alert(modif_cadena(valida_dec(num),valida_dif(valida_dec(num,cerosprueba),cerosprueba)));
 }
