@@ -25,8 +25,8 @@ var decimales1=0;
 function conforma_valor(valor){
   if (punto==true){
       if (contadorceros<=7){
-    resultado = (valor/(Math.pow(10,contadorceros)))+resultado;
-
+    resultado =(valor/(Math.pow(10,contadorceros)))+resultado;
+      resultado=parse(resultado,contadorceros);
       contadorceros++;}
       else{resultado=resultado;}
     }
@@ -34,7 +34,7 @@ function conforma_valor(valor){
         contadordecenas++;}
         else{resultado=resultado;}}
 
-   return(resultado);
+   return(round(resultado));
 
 }
 
@@ -172,8 +172,8 @@ function round (value){
   var total=enteros+decimales1+1;
 
   value=parse(value,(9-enteros-1));
-  if (resultadoacum>9999999){resultadoacum=INFINITY;}
-  if (resultadoacum<-9999999){resultadoacum=-INFINITY;}
+  if (value>9999999){value=INFINITY;}
+  if (value<-9999999){value=-INFINITY;}
 return value;
 }
 
@@ -249,6 +249,7 @@ function operar(op){
 
 
         case "por":
+        
         document.getElementById('display').innerHTML=String(resultadoacum);
         break;
 
@@ -403,8 +404,8 @@ document.getElementById('on').style="width:77px;margin-left:1px;margin-up:1px;;m
 
 function tonup(){
 document.getElementById('on').style="width:78px;margin-left-0px;margin-up:0px;;margin-left-0px;margin-up:0px;"
-operando="on";
-calculadora.operacion(operando);
+
+calculadora.operacion("on");
 
 }
 
@@ -417,8 +418,7 @@ document.getElementById('sign').style="width:77px;margin-left:1px;margin-up:1px;
 
 function tsignup(){
 document.getElementById('sign').style="width:78px;margin-left-0px;margin-up:0px;;margin-left-0px;margin-up:0px;"
-operando="sign";
-calculadora.operacion(operando);
+calculadora.operacion("sign");
 
 }
 
@@ -428,8 +428,8 @@ document.getElementById('raiz').style="width:77px;margin-left:1px;margin-up:1px;
 
 function traizup(){
 document.getElementById('raiz').style="width:78px;margin-left-0px;margin-up:0px;"
-operando="raiz";
-calculadora.operacion(operando);
+
+calculadora.operacion("raiz");
 }
 
 function tdivididodown(){
@@ -438,8 +438,7 @@ document.getElementById('dividido').style="width:77px;margin-left:1px;margin-up:
 
 function tdivididoup(){
 document.getElementById('dividido').style="width:78px;margin-left-0px;margin-up:0px;"
-operando="dividido";
-calculadora.operacion(operando);
+calculadora.operacion("dividido");
 }
 
 function tpordown(){
@@ -448,8 +447,7 @@ document.getElementById('por').style="width:77px;margin-left:1px;margin-up:1px;"
 
 function tporup(){
 document.getElementById('por').style="width:78px;margin-left-0px;margin-up:0px;"
-operando="por";
-calculadora.operacion(operando);
+calculadora.operacion("por");
 }
 
 function tmenosdown(){
@@ -459,8 +457,7 @@ document.getElementById('menos').style="width:77px;margin-left:1px;margin-up:1px
 
 function tmenosup(){
 document.getElementById('menos').style="width:78px;margin-left-0px;margin-up:0px;"
-operando="menos";
-calculadora.operacion(operando);
+calculadora.operacion("menos");
 }
 
 function tpuntodown(){
@@ -469,8 +466,7 @@ document.getElementById('punto').style="width:76px;margin-left:1px;margin-up:1px
 
 function tpuntoup(){
 document.getElementById('punto').style="width:77px;margin-left-0px;margin-up:0px;"
-operando="punto";
-calculadora.operacion(operando);
+calculadora.operacion("punto");
 }
 
 function tigualdown(){
@@ -480,8 +476,7 @@ document.getElementById('igual').style="width:76px;margin-left:1px;margin-up:1px
 
 function tigualup(){
 document.getElementById('igual').style="width:77px;margin-left-0px;margin-up:0px;"
-operando="igual";
-calculadora.operacion(operando);
+calculadora.operacion("igual");
 }
 
 function tmasdown(){
@@ -490,8 +485,7 @@ function tmasdown(){
 
 function tmasup(){
 document.getElementById('mas').style="width:79px;margin-left-0px;margin-bottom:0px;"
-operando="mas";
-calculadora.operacion(operando);
+calculadora.operacion("mas");
 }
 
 function t1down(){
@@ -500,8 +494,7 @@ function t1down(){
 
 function t1up(){
 document.getElementById('1').style="width:77px;margin-left-0px;margin-up:0px;"
-operando="1";
-calculadora.operacion(operando);
+calculadora.operacion("1");
 
 }
 
@@ -513,8 +506,7 @@ document.getElementById('2').style="width:76px;margin-left:1px;margin-up:1px;"
 
 function t2up(){
 document.getElementById('2').style="width:77px;margin-left-0px;margin-up:0px;"
-operando="2";
-calculadora.operacion(operando);
+calculadora.operacion("2");
 }
 
 function t3down(){
@@ -523,8 +515,7 @@ function t3down(){
 
 function t3up(){
 document.getElementById('3').style="width:77px;margin-left-0px;margin-up:0px;"
-operando="3";
-calculadora.operacion(operando);
+calculadora.operacion("3");
 }
 
 function t4down(){
@@ -534,8 +525,8 @@ function t4down(){
 
 function t4up(){
 document.getElementById('4').style="width:78px;margin-left-0px;margin-up:0px;"
-operando="4";
-calculadora.operacion(operando);
+
+calculadora.operacion("4");
 }
 
 function t5down(){
@@ -545,8 +536,7 @@ function t5down(){
 
 function t5up(){
 document.getElementById('5').style="width:78px;margin-left-0px;margin-up:0px;"
-operando="5";
-calculadora.operacion(operando);
+calculadora.operacion("5");
 }
 
 function t6down(){
@@ -555,8 +545,7 @@ function t6down(){
 
 function t6up(){
 document.getElementById('6').style="width:78px;margin-left-0px;margin-up:0px;"
-operando="6";
-calculadora.operacion(operando);
+calculadora.operacion("6");
 
 }
 
@@ -566,8 +555,7 @@ function t7down(){
 
 function t7up(){
 document.getElementById('7').style="width:78px;margin-left-0px;margin-up:0px;"
-operando="7";
-calculadora.operacion(operando);
+calculadora.operacion("7");
 
 }
 
@@ -580,8 +568,7 @@ function t8down(){
 function t8up(){
 document.getElementById('8').style="width:78px;margin-left-0px;margin-up:0px;"
 
-operando="8";
-calculadora.operacion(operando);
+calculadora.operacion("8");
 
 }
 
@@ -591,8 +578,7 @@ function t9down(){
 
 function t9up(){
 document.getElementById('9').style="width:78px;margin-left-0px;margin-up:0px;"
-operando="9";
-calculadora.operacion(operando);
+calculadora.operacion("9");
 
 }
 
@@ -605,8 +591,6 @@ function t0down(){
 
 function t0up(){
 document.getElementById('0').style="width:77px;margin-left-0px;margin-up:0px;"
-
-operando="0";
-calculadora.operacion(operando);
+calculadora.operacion("0");
 
 }
