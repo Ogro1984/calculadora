@@ -14,6 +14,12 @@ var contadorceros=1;
 var internochar="";
 var contadordecenas=0;
 var cadena,indice,subcadena,decimalescount,diferencia,entero;
+var resultadoacum=0;
+var division=false;
+var multiplicacion=false;
+var suma=false;
+var resta=false;
+var decimales1=0;
 //metodos del modulo (privados)
 //funciones para procesar ceros a la derecha del numero decimal
 function conforma_valor(valor){
@@ -56,6 +62,19 @@ decimalescount=subcadena.length;
 diferencia=contadorceros-decimalescount;
 return diferencia;
 }
+
+function fenteros (cadena){
+var indice = cadena.indexOf(".");
+return indice;
+}
+
+function fdecimales (cadena){
+var indice = cadena.indexOf(".");
+subcadena=cadena.substr(indice+1);
+decimalescount=subcadena.length;
+return decimalescount;
+}
+
 
 function modif_cadena(cadena,diferencia){
   if (diferencia==1){
@@ -129,6 +148,59 @@ function llamaconvert(){
       return internochar;
          }
 
+function parse(num,decimales){
+  var a=parseFloat(intlRound(num,decimales)) ;
+    return a;
+
+         }
+
+function intlRound(numero, decimales = 7, usarComa = false) {
+             var opciones = {
+                 maximumFractionDigits: decimales,
+                 useGrouping: false
+             };
+             usarComa = usarComa ? "es" : "en";
+             return new Intl.NumberFormat(usarComa, opciones).format(numero);
+         }
+
+function round (value){
+
+  var fixint=value.toFixed(7);
+  var intfloat=fixint*1.0
+  var enteros= fenteros(String(intfloat));
+  var decimales1 = fdecimales(String(intfloat));
+  var total=enteros+decimales1+1;
+
+  value=parse(value,(9-enteros-1));
+  if (resultadoacum>9999999){resultadoacum=INFINITY;}
+  if (resultadoacum<-9999999){resultadoacum=-INFINITY;}
+return value;
+}
+
+function operar(op){
+  punto=false;
+  contadorceros=1;
+  contadordecenas=0;
+  if(resultadoacum!=0){
+      if (resultado==0){resultado=resultadoacum;}
+      if (op=="div"){resultadoacum=resultadoacum/resultado;}
+      else if (op=="por"){resultadoacum=resultadoacum*resultado;}
+      else if (op=="mas"){resultadoacum=resultadoacum+resultado;}
+      else if (op=="menos"){resultadoacum=resultadoacum-resultado;}
+      resultado=0;
+      resultadoacum=round(resultadoacum);
+    }
+
+    else {resultadoacum=round(resultado);
+
+          resultado=0;}
+
+  return resultadoacum;
+
+
+}
+
+
 
 // metodos y atributos publicos
 
@@ -139,7 +211,11 @@ function llamaconvert(){
       switch (operacion) {
         case "on":
         //inicializa las variables
-
+        resultadoacum=0;
+        division=false;
+        multiplicacion=false;
+        suma=false;
+        resta=false;
         interno=0;
         punto=false;
         contadorceros=1;
@@ -164,9 +240,19 @@ function llamaconvert(){
         punto=true; //pone el punto en true comienza la escrit decimal
         break;
 
+        case "dividido":
+        division=true;
+        operar("div");
+
+        document.getElementById('display').innerHTML=String(resultadoacum);
+        break;
+
+
+        case "por":
+        document.getElementById('display').innerHTML=String(resultadoacum);
+        break;
 
         case "0":
-
 
             if (punto==true){
 
@@ -180,43 +266,55 @@ function llamaconvert(){
         break;
 
         case "1":
-            conforma_valor(1);
+              conforma_valor(1);
 
-            document.getElementById('display').innerHTML=String(resultado);
+              document.getElementById('display').innerHTML=String(resultado);
 
         break;
+
         case "2":
-        interno =interno*10+2;
+              conforma_valor(2);
+
+              document.getElementById('display').innerHTML=String(resultado);
         break;
         case "3":
-        interno =interno*10+3;
+              conforma_valor(3);
+
+              document.getElementById('display').innerHTML=String(resultado);;
         break;
         case "4":
-        interno =interno*10+4;
+              conforma_valor(4);
+
+              document.getElementById('display').innerHTML=String(resultado);
         break;
         case "5":
-        interno =interno*10+5;
+              conforma_valor(5);
+
+              document.getElementById('display').innerHTML=String(resultado);
         break;
         case "6":
-        interno =interno*10+6;
+              conforma_valor(6);
+
+              document.getElementById('display').innerHTML=String(resultado);
         break;
         case "7":
-        interno =interno*10+7;
+              conforma_valor(7);
+
+              document.getElementById('display').innerHTML=String(resultado);
         break;
         case "8":
-        interno =interno*10+8;
+              conforma_valor(8);
+
+              document.getElementById('display').innerHTML=String(resultado);
         break;
         case "9":
-        interno =interno*10+9;
+              conforma_valor(9);
+
+              document.getElementById('display').innerHTML=String(resultado);
         break;
 
       }
-
-
-//document.getElementById('display').innerHTML=resultado;
-
-
-    },
+          },
 
 
 
