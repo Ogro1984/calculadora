@@ -20,6 +20,12 @@ var multiplicacion=false;
 var suma=false;
 var resta=false;
 var decimales1=0;
+var primeroper=0;
+var segundooper=0;
+var pp=true;
+var memoria=0;
+
+
 //metodos del modulo (privados)
 //funciones para procesar ceros a la derecha del numero decimal
 function conforma_valor(valor){
@@ -171,35 +177,23 @@ function round (value){
   var decimales1 = fdecimales(String(intfloat));
   var total=enteros+decimales1+1;
 
+
   value=parse(value,(9-enteros-1));
-  if (value>9999999){value=INFINITY;}
-  if (value<-9999999){value=-INFINITY;}
+  if (value>99999999){value=99999999;}
+  if (value<-9999999){value=-99999999;}
 return value;
 }
 
-function operar(op){
-  punto=false;
-  contadorceros=1;
-  contadordecenas=0;
-  if(resultadoacum!=0){
-      if (resultado==0){resultado=resultadoacum;}
-      if (op=="div"){resultadoacum=resultadoacum/resultado;}
-      else if (op=="por"){resultadoacum=resultadoacum*resultado;}
-      else if (op=="mas"){resultadoacum=resultadoacum+resultado;}
-      else if (op=="menos"){resultadoacum=resultadoacum-resultado;}
-      resultado=0;
-      resultadoacum=round(resultadoacum);
+function operar(op,primeroper,segundooper){
+
+      if (op=="div"){resultado=primeroper/segundooper;}
+      else if (op=="por"){resultado=primeroper*segundooper;}
+      else if (op=="mas"){resultado=primeroper+segundooper;}
+      else if (op=="menos"){resultado=primeroper-segundooper;}
+      else {resultado=resultado;}
+      resultado=round(resultado);
+      return resultado;
     }
-
-    else {resultadoacum=round(resultado);
-
-          resultado=0;}
-
-  return resultadoacum;
-
-
-}
-
 
 
 // metodos y atributos publicos
@@ -211,7 +205,6 @@ function operar(op){
       switch (operacion) {
         case "on":
         //inicializa las variables
-        resultadoacum=0;
         division=false;
         multiplicacion=false;
         suma=false;
@@ -221,36 +214,114 @@ function operar(op){
         contadorceros=1;
         contadordecenas=0;
         resultado=0;
+        primeroper=0;
+        segundooper=0;
+        pp=true;
+        memoria=0;
         document.getElementById('display').innerHTML=String(resultado);   //inicializa las variables todas a cero
         break;
 
         case "sign":
-
         resultado=resultado*(-1);
 
         document.getElementById('display').innerHTML=String(resultado);   //invierte el resultado
+
+
         break;
 
         case "raiz":
         //resultado=sqrt(resultado*(-1));
         //document.getElementById('display').innerHTML=String(interno);  //no hace nada porque no esta solicitado
+
+
         break;
 
         case "punto":
-        punto=true; //pone el punto en true comienza la escrit decimal
+        var indice24 = String(resultado).indexOf(".");
+        if (indice24 == -1){
+          document.getElementById('display').innerHTML=String(resultado)+".";}
+
+
+        punto=true;
+
         break;
 
         case "dividido":
+        punto=false;
+        contadorceros=1;
+        contadordecenas=0;
+        suma=false;
+        resta=false;
+        multiplicacion=false;
         division=true;
-        operar("div");
-
-        document.getElementById('display').innerHTML=String(resultadoacum);
+        primeroper=resultado;
+        resultado=0;
+        pp=true
+        document.getElementById('display').innerHTML="";
         break;
 
 
         case "por":
-        
-        document.getElementById('display').innerHTML=String(resultadoacum);
+        punto=false;
+        contadorceros=1;
+        contadordecenas=0;
+        suma=false;
+        resta=false;
+        division=false;
+        multiplicacion=true;
+        primeroper=resultado;
+        resultado=0;
+        pp=true
+        document.getElementById('display').innerHTML="";
+        break;
+
+        case "menos":
+        punto=false;
+        contadorceros=1;
+        contadordecenas=0;
+        suma=false;
+        multiplicacion=false;
+        division=false;
+        resta=true;
+        primeroper=resultado;
+        resultado=0;
+        pp=true
+        document.getElementById('display').innerHTML="";
+        break;
+
+        case "mas":
+        punto=false;
+        contadorceros=1;
+        contadordecenas=0;
+        resta=false;
+        multiplicacion=false;
+        division=false;
+        suma=true;
+        primeroper=resultado;
+        resultado=0;
+        pp=true
+        document.getElementById('display').innerHTML="";
+        break;
+
+        case "igual":
+        punto=false;
+        contadorceros=1;
+        contadordecenas=0;
+
+          if (pp==true){segundooper=resultado;memoria=segundooper;pp=false;}
+          else{primeroper=resultado;segundooper=memoria;}
+
+
+
+            if (suma==true){resultado=operar("mas",primeroper,segundooper);}
+            else if(division==true){operar("div",primeroper,segundooper);}
+            else if (resta==true){operar("menos",primeroper,segundooper);}
+            else if (multiplicacion==true){operar("por",primeroper,segundooper);}
+
+
+            document.getElementById('display').innerHTML=String(resultado);
+
+
         break;
 
         case "0":
@@ -266,49 +337,71 @@ function operar(op){
 
         break;
 
+
+
         case "1":
+
+
               conforma_valor(1);
 
               document.getElementById('display').innerHTML=String(resultado);
 
         break;
-
         case "2":
+
+
               conforma_valor(2);
 
               document.getElementById('display').innerHTML=String(resultado);
         break;
         case "3":
+
+
+
               conforma_valor(3);
 
               document.getElementById('display').innerHTML=String(resultado);;
         break;
         case "4":
+
               conforma_valor(4);
 
               document.getElementById('display').innerHTML=String(resultado);
         break;
         case "5":
+
+
               conforma_valor(5);
 
               document.getElementById('display').innerHTML=String(resultado);
         break;
         case "6":
+
+
+
               conforma_valor(6);
 
               document.getElementById('display').innerHTML=String(resultado);
         break;
         case "7":
+
+
+
               conforma_valor(7);
 
               document.getElementById('display').innerHTML=String(resultado);
         break;
         case "8":
+
+
+
               conforma_valor(8);
 
               document.getElementById('display').innerHTML=String(resultado);
         break;
         case "9":
+
+
               conforma_valor(9);
 
               document.getElementById('display').innerHTML=String(resultado);
@@ -317,32 +410,6 @@ function operar(op){
       }
           },
 
-
-
-
-
-
-    sumar: function(num1,num2){
-      var resultado = num1+num2;
-      actualizarResultado(resultado)
-
-    },
-    restar: function(num1,num2){
-      var resultado=num1-num2;
-      actualizarResultado (resultado)
-
-    },
-    multiplicar: function(num1,num2){
-
-      var resultado = num1*num2;
-      actualizarResultado (resultado);
-      return resultado
-    },
-
-    resultado:function(){
-      return resultado;
-
-    },
 
   }
 })();
